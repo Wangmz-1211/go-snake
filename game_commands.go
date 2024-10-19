@@ -12,33 +12,29 @@ type baseCommand struct {
 }
 
 func (base *baseCommand) move(dx, dy int) bool {
-	info := base.info
-	mp := base.mp
-	snake := base.snake
-	food := base.food
-	lastHeadPos := snake.getHeadPosition()
+	lastHeadPos := base.snake.getHeadPosition()
 	nextHeadPos := Position{lastHeadPos.x + dx, lastHeadPos.y + dy}
-	if !isValidPosition(nextHeadPos, mp) {
+	if !isValidPosition(nextHeadPos, base.mp) {
 		// game over
 		base.info.status = Finished
 		return false
 	}
-	eating := food.tryEat(nextHeadPos)
-	if eating || food.timeLeft == 0 {
-		food.gernerateNewFood(mp)
+	eating := base.food.tryEat(nextHeadPos)
+	if eating || base.food.timeLeft == 0 {
+		base.food.gernerateNewFood(base.mp)
 	}
 
-	mp.SetCell(lastHeadPos, Body)
-	mp.SetCell(nextHeadPos, Head)
+	base.mp.SetCell(lastHeadPos, Body)
+	base.mp.SetCell(nextHeadPos, Head)
 	if eating {
-		info.getScore()
-		snake.eatAndMove(nextHeadPos)
+		base.info.getScore()
+		base.snake.eatAndMove(nextHeadPos)
 		return true
 	}
 
-	lastTailPos := snake.getTailPosition()
-	snake.moveForward(nextHeadPos)
-	mp.SetCell(lastTailPos, Blank)
+	lastTailPos := base.snake.getTailPosition()
+	base.snake.moveForward(nextHeadPos)
+	base.mp.SetCell(lastTailPos, Blank)
 	return true
 }
 

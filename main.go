@@ -16,7 +16,6 @@ func gameOver(info *GameInfo, mp *GameMap) {
 	termbox.SetCursor(3, 1)
 	termbox.Flush()
 	fmt.Printf("\tGame Over!  Score: %d\n\n       <Press Any Key to Quit>", info.score)
-	// termbox.Flush()
 	termbox.PollEvent()
 }
 
@@ -43,9 +42,9 @@ func main() {
 	mp := InitMap(row, col)
 	snake := InitSnake(mp)
 	food := InitFood(mp)
-
-	defer gameOver(info, mp)
 	key_binding := InitKeyBinding(info, mp, snake, food)
+	defer gameOver(info, mp)
+
 	eventCh := make(chan termbox.Event)
 	go func() {
 		for {

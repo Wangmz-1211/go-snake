@@ -38,6 +38,7 @@ func (m *GameMap) SetCell(p Position, target Cell) {
 	termbox.SetCell(p.x*2, p.y, target.getRune(), termbox.ColorDefault, termbox.ColorDefault)
 	termbox.Flush()
 }
+
 func (m *GameMap) GetCell(p Position) Cell {
 	// unsafe
 	return m.Map[p.x][p.y]
