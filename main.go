@@ -28,7 +28,9 @@ func main() {
 	row /= 2
 	mp := InitMap(row, col)
 	snake := InitSnake(mp)
-	key_binding := InitKeyBinding(mp, snake)
+	food := InitFood(mp)
+
+	key_binding := InitKeyBinding(mp, snake, food)
 	eventCh := make(chan termbox.Event)
 	go func() {
 		for {
@@ -36,7 +38,7 @@ func main() {
 			eventCh <- event
 		}
 	}()
-	gap := 500
+	gap := 300
 	var ev termbox.Event
 	timer := time.NewTicker(time.Duration(gap) * time.Millisecond)
 

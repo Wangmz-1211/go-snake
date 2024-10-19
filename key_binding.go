@@ -11,11 +11,12 @@ type KeyBinding struct {
 	Mapping map[termbox.Key]Command
 }
 
-func InitKeyBinding(mp *GameMap, snake *GameSnake) KeyBinding {
+func InitKeyBinding(mp *GameMap, snake *GameSnake, food *GameFood) KeyBinding {
 	mapping := make(map[termbox.Key]Command, 4)
 	base := baseCommand{
 		mp,
 		snake,
+		food,
 	}
 	mapping[termbox.KeyArrowLeft] = MoveLeftCommand{&base}
 	mapping[termbox.KeyArrowDown] = MoveDownCommand{&base}

@@ -42,3 +42,7 @@ func (m *GameMap) GetCell(p Position) Cell {
 	// unsafe
 	return m.Map[p.x][p.y]
 }
+
+func (m *GameMap) isBlank(p Position) bool {
+	return m.Map[p.x][p.y] == Blank
+}
