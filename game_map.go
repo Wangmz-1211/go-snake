@@ -46,3 +46,7 @@ func (m *GameMap) GetCell(p Position) Cell {
 func (m *GameMap) isBlank(p Position) bool {
 	return m.Map[p.x][p.y] == Blank
 }
+
+func (m *GameMap) isFood(p Position) bool {
+	return m.Map[p.x][p.y] == Food
+}

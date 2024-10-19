@@ -20,6 +20,7 @@ func (base *baseCommand) move(dx, dy int) bool {
 	nextHeadPos := Position{lastHeadPos.x + dx, lastHeadPos.y + dy}
 	if !isValidPosition(nextHeadPos, mp) {
 		// game over
+		base.info.status = Finished
 		return false
 	}
 	eating := food.tryEat(nextHeadPos)
@@ -77,5 +78,5 @@ func (cmd MoveDownCommand) exec() bool {
 
 /* Utils */
 func isValidPosition(p Position, m *GameMap) bool {
-	return 0 <= p.x && p.x < m.Row && 0 <= p.y && p.y < m.Col
+	return 0 <= p.x && p.x < m.Row && 0 <= p.y && p.y < m.Col && (m.isBlank(p) || m.isFood(p))
 }

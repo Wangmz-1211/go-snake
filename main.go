@@ -1,10 +1,24 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/nsf/termbox-go"
 )
+
+func gameOver(info *GameInfo, mp *GameMap) {
+	for i := range mp.Row * 2 {
+		for j := range mp.Col {
+			termbox.SetChar(i, j, ' ')
+		}
+	}
+	termbox.SetCursor(3, 1)
+	termbox.Flush()
+	fmt.Printf("\tGame Over!  Score: %d\n\n       <Press Any Key to Quit>", info.score)
+	// termbox.Flush()
+	termbox.PollEvent()
+}
 
 func main() {
 	// Init termbox
@@ -30,6 +44,7 @@ func main() {
 	snake := InitSnake(mp)
 	food := InitFood(mp)
 
+	defer gameOver(info, mp)
 	key_binding := InitKeyBinding(info, mp, snake, food)
 	eventCh := make(chan termbox.Event)
 	go func() {
@@ -41,6 +56,7 @@ func main() {
 	var ev termbox.Event
 	timer := info.ticker
 
+	info.status = Play
 	for {
 		select {
 		case <-timer.C:
@@ -48,6 +64,9 @@ func main() {
 				return
 			}
 			key_binding.invoke(ev.Key)
+			if info.status == Finished {
+				return
+			}
 		case event := <-eventCh:
 			ev = event
 		}
