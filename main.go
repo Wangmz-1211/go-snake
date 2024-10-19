@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"time"
 
 	"github.com/nsf/termbox-go"
 )
@@ -26,11 +25,12 @@ func main() {
 	// Initialize Game
 	row, col := termbox.Size()
 	row /= 2
+	info := InitGameInfo()
 	mp := InitMap(row, col)
 	snake := InitSnake(mp)
 	food := InitFood(mp)
 
-	key_binding := InitKeyBinding(mp, snake, food)
+	key_binding := InitKeyBinding(info, mp, snake, food)
 	eventCh := make(chan termbox.Event)
 	go func() {
 		for {
@@ -38,9 +38,8 @@ func main() {
 			eventCh <- event
 		}
 	}()
-	gap := 300
 	var ev termbox.Event
-	timer := time.NewTicker(time.Duration(gap) * time.Millisecond)
+	timer := info.ticker
 
 	for {
 		select {

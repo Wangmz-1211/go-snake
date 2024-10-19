@@ -6,14 +6,16 @@ import (
 
 type KeyBinding struct {
 	lastKey termbox.Key
+	Info    *GameInfo
 	Map     *GameMap
 	Snake   *GameSnake
 	Mapping map[termbox.Key]Command
 }
 
-func InitKeyBinding(mp *GameMap, snake *GameSnake, food *GameFood) KeyBinding {
+func InitKeyBinding(info *GameInfo, mp *GameMap, snake *GameSnake, food *GameFood) KeyBinding {
 	mapping := make(map[termbox.Key]Command, 4)
 	base := baseCommand{
+		info,
 		mp,
 		snake,
 		food,
@@ -24,6 +26,7 @@ func InitKeyBinding(mp *GameMap, snake *GameSnake, food *GameFood) KeyBinding {
 	mapping[termbox.KeyArrowUp] = MoveUpCommand{&base}
 	return KeyBinding{
 		lastKey: termbox.KeyArrowRight,
+		Info:    info,
 		Map:     mp,
 		Snake:   snake,
 		Mapping: mapping,

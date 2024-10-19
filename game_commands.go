@@ -5,12 +5,14 @@ type Command interface {
 }
 
 type baseCommand struct {
+	info  *GameInfo
 	mp    *GameMap
 	snake *GameSnake
 	food  *GameFood
 }
 
 func (base *baseCommand) move(dx, dy int) bool {
+	info := base.info
 	mp := base.mp
 	snake := base.snake
 	food := base.food
@@ -28,6 +30,7 @@ func (base *baseCommand) move(dx, dy int) bool {
 	mp.SetCell(lastHeadPos, Body)
 	mp.SetCell(nextHeadPos, Head)
 	if eating {
+		info.getScore()
 		snake.eatAndMove(nextHeadPos)
 		return true
 	}
